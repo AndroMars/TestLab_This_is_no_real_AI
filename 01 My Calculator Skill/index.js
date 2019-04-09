@@ -13,9 +13,9 @@ const LaunchRequestHandler = {
     },
     handle(handlerInput) {
         //welcome message
-        let speechText = 'Welcome to My Calculator. You can say, add 2 and 5, or multiply 4 and 8';
+        let speechText = 'Welcome to My Calculator. You can say, add 2 and 5, or multiply 4 and 8.';
         //welcome screen message
-        let displayText = "Welcome to my Calculator"
+        let displayText = "Welcome to My Calculator"
         return handlerInput.responseBuilder
             .speak(speechText)
             .reprompt(speechText)
@@ -26,40 +26,76 @@ const LaunchRequestHandler = {
 
 //implement custom handlers
 const AddIntentHandler = {
-    canHandle(handlerInput) {
-        return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-            && handlerInput.requestEnvelope.request.intent.name === 'AMAZON.HelpIntent'
-    },
-        handle(handlerInput) {
-            let speechText = '';
-            let displayText = '';
-            let intent = handlerInput.request.intent;
-            let firstNumber = intent.slots.firstNumber.value;
-            let secondNumber = intend.slots.secondNumber.value;
+  canHandle(handlerInput) {
+    return handlerInput.requestEnvelope.request.type === 'IntentRequest'
+    && handlerInput.requestEnvelope.request.intent.name === 'AddIntent'
+  },
+  handle(handlerInput) {
+    let speechText = '';
+    let displayText = '';
+    let intent = handlerInput.requestEnvelope.request.intent;
+    let firstNumber = intent.slots.firstNumber.value;
+    let secondNumber = intent.slots.secondNumber.value;
 
-            if ( firstNumber && secondNumber) {
-                //Perform operation
+    if ( firstNumber && secondNumber) {
+      //Perform operation
+      let result = parseInt(firstNumber) + parseInt(secondNumber);
+      speechText = `The result of ${firstNumber} plus ${secondNumber} is ${result}`;
+      displayText = `${result}`;
 
-                let result = parseInt(secondNumber) - parseInt(firstNumber);
-                speechText = 'The result of ${secondNumber} minus ${firstNumber} is ${secondNumber} is ${result}';
-                displayText = '${result}';
+      return handlerInput.responseBuilder
+      .speak(speechText)
+      .withSimpleCard(appName, displayText)
+      .withShouldEndSession(true)
+      .getResponse();
 
-                return handlerInput.responseBuilder
-                .speak(speechText)
-                .withSimpleCard(appName, displayText)
-                .withShouldEndsession(true)
-                .getresponse();
 
-            } else {
-                //Ask for the rquired input
-              return handlerInput.responseBuilder
-              .addDelegateDirective (intent)
-              .getResponse();
-            }
-            }
-        }
+    } else {
+      //Ask for the required input
+      return handlerInput.responseBuilder
+      .addDelegateDirective(intent)
+      .getResponse();
 
-}
+    }
+
+  }
+};
+
+const SubtractIntentHandler = {
+  canHandle(handlerInput) {
+    return handlerInput.requestEnvelope.request.type === 'IntentRequest'
+    && handlerInput.requestEnvelope.request.intent.name === 'SubtractIntent'
+  },
+  handle(handlerInput) {
+    let speechText = '';
+    let displayText = '';
+    let intent = handlerInput.requestEnvelope.request.intent;
+    let firstNumber = intent.slots.firstNumber.value;
+    let secondNumber = intent.slots.secondNumber.value;
+
+    if ( firstNumber && secondNumber) {
+      //Perform operation
+      let result = parseInt(secondNumber) - parseInt(firstNumber);
+      speechText = `The result of ${secondNumber} minus ${firstNumber} is ${result}`;
+      displayText = `${result}`;
+
+      return handlerInput.responseBuilder
+      .speak(speechText)
+      .withSimpleCard(appName, displayText)
+      .withShouldEndSession(true)
+      .getResponse();
+
+
+    } else {
+      //Ask for the required input
+      return handlerInput.responseBuilder
+      .addDelegateDirective(intent)
+      .getResponse();
+
+    }
+
+  }
+};
 
 //end Custom handlers
 
