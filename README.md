@@ -1,2 +1,2 @@
 
-# My first attempts to deal with ai
+# My first attempts to deal with ai :D
