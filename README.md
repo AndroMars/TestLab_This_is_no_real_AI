@@ -1,1 +1,2 @@
-06_03_02_Hey-this-is-Alexa
+
+# My first attempts in dealing with ai :D
